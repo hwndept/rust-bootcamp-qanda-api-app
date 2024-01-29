@@ -10,6 +10,9 @@ mod models;
 
 use handlers::*;
 
+const HOST: [u8; 4] = [127, 0, 0, 1];
+const PORT: u16 = 8000;
+
 #[tokio::main]
 async fn main() {
     let app = Router::new()
@@ -20,7 +23,13 @@ async fn main() {
         .route("/answers", get(read_answers))
         .route("/answer", delete(delete_answer));
 
-    let addr = SocketAddr::from(([127, 0, 0, 1], 8000));
+    let addr = SocketAddr::from((HOST, PORT));
+
+    println!(
+        "Server is being started, http://{}:{PORT}",
+        HOST.map(|v| v.to_string()).join(".")
+    );
+
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
         .await
