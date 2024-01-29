@@ -6,10 +6,35 @@ The project implements the requirements defined in [bootcamp](https://github.com
 
 ## How to use
 
-Run the command below (_it compiles the code and executes it_).
+1. Run local instance of PostgreSQL:
+
+The next script runs database instance using docker. You can avoid this step if you have another database instance.
 
 ```sh
-cargo run
+./scripts/run-db.sh
+```
+
+_Hit `CTRL+C` to stop._
+
+2. Create `.env` file in the root of the project and specify DATABASE_URL, e.g.:
+
+```
+DATABASE_URL=postgresql://user:password@localhost/default
+```
+
+3. Initiate database.
+
+```sh
+# Install sqlx-cli
+cargo install sqlx-cli
+# Apply migrations
+sqlx migrate run
+```
+
+3. Run the command below (_it compiles the code and executes it_).
+
+```sh
+RUST_LOG=info cargo run
 ```
 
 The app will run HTTP server exposed on [http://127.0.0.1:8000/](http://0.0.0.0:8000/)

@@ -11,14 +11,12 @@ pub async fn create_question(Json(question): Json<Question>) -> impl IntoRespons
 }
 
 pub async fn read_questions() -> impl IntoResponse {
-    let questions: Vec<QuestionDetail> = vec![QuestionDetail {
+    Json(vec![QuestionDetail {
         question_uuid: "question_uuid".to_owned(),
         title: "question_title".to_owned(),
         description: "question_description".to_owned(),
         created_at: "created_at".to_owned(),
-    }];
-
-    Json(questions)
+    }])
 }
 
 pub async fn delete_question(Json(_question_uuid): Json<QuestionId>) {}
@@ -33,14 +31,12 @@ pub async fn create_answer(Json(answer): Json<Answer>) -> impl IntoResponse {
 }
 
 pub async fn read_answers(Json(question_id): Json<QuestionId>) -> impl IntoResponse {
-    let answers: Vec<AnswerDetail> = vec![AnswerDetail {
+    Json(vec![AnswerDetail {
         answer_uuid: "answer_uuid".to_owned(),
         question_uuid: question_id.question_uuid,
         content: "content".to_owned(),
         created_at: "created_at".to_owned(),
-    }];
-
-    Json(answers)
+    }])
 }
 
 pub async fn delete_answer(Json(_answer_uuid): Json<AnswerId>) {}
