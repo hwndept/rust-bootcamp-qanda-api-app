@@ -13,6 +13,7 @@ use axum::{
 
 mod handlers;
 mod models;
+mod persistance;
 
 use handlers::*;
 

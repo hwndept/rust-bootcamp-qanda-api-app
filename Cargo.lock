@@ -1120,12 +1120,14 @@ dependencies = [
 name = "rust-bootcamp-qanda-api-app"
 version = "0.1.0"
 dependencies = [
+ "async-trait",
  "axum",
  "dotenvy",
  "log",
  "pretty_env_logger",
  "serde",
  "sqlx",
+ "thiserror",
  "tokio",
 ]
 

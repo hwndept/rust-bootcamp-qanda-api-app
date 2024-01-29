@@ -11,11 +11,27 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: default
+        ports:
+          - 5432:5432
 
     steps:
     - uses: actions/checkout@v3
+    - name: Generate .env file
+      run: |
+        echo "DATABASE_URL=postgresql://user:password@localhost/default" > .env
+    - name: Apply migrations
+      run: |
+        cargo install sqlx-cli
+        sqlx migrate run
     - name: Build
       run: cargo build --verbose
     - name: Run tests
