@@ -1,0 +1,118 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "BootCamp API Q&A",
+    "dateExported": "2024-01-29T20:14:26.023Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "1b196100-8671-472c-8d04-4d9972b664ff",
+            "colId": "d8bad214-1170-4294-b38c-e9880692fbe8",
+            "containerId": "",
+            "name": "GET /questions",
+            "url": "http://localhost:8000/questions",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-01-29T20:11:54.664Z",
+            "modified": "2024-01-29T20:11:54.664Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "8541472a-4b00-4115-97da-78e6acb59dde",
+            "colId": "d8bad214-1170-4294-b38c-e9880692fbe8",
+            "containerId": "",
+            "name": "GET /answers",
+            "url": "http://localhost:8000/answers",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-01-29T20:12:06.497Z",
+            "modified": "2024-01-29T20:12:06.497Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"question_uuid\": \"123\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "2f176ea2-0877-49ce-b368-f99ae10736ae",
+            "colId": "d8bad214-1170-4294-b38c-e9880692fbe8",
+            "containerId": "",
+            "name": "POST /question",
+            "url": "http://localhost:8000/question",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-01-29T20:12:13.671Z",
+            "modified": "2024-01-29T20:12:13.671Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"title\": \"New Title\",\n  \"description\": \"New Description\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "c1235bb7-4074-44f8-826d-3d30c4d058f0",
+            "colId": "d8bad214-1170-4294-b38c-e9880692fbe8",
+            "containerId": "",
+            "name": "DELETE /question",
+            "url": "http://localhost:8000/question",
+            "method": "DELETE",
+            "sortNum": 40000,
+            "created": "2024-01-29T20:12:19.316Z",
+            "modified": "2024-01-29T20:12:19.316Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"question_uuid\": \"123\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "4be8aadf-6acc-445e-81bd-ed898c080b42",
+            "colId": "d8bad214-1170-4294-b38c-e9880692fbe8",
+            "containerId": "",
+            "name": "DELETE /answer",
+            "url": "http://localhost:8000/answer",
+            "method": "DELETE",
+            "sortNum": 50000,
+            "created": "2024-01-29T20:12:25.777Z",
+            "modified": "2024-01-29T20:12:25.777Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"answer_uuid\": \"123\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "f438f312-34ad-4f1f-ae9f-2ba4dddae6fa",
+            "colId": "d8bad214-1170-4294-b38c-e9880692fbe8",
+            "containerId": "",
+            "name": "POST /answer",
+            "url": "http://localhost:8000/answer",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2024-01-29T20:13:40.706Z",
+            "modified": "2024-01-29T20:13:40.706Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"question_uuid\": \"123\",\n  \"content\": \"New Content\"\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
