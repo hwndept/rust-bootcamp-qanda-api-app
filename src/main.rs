@@ -1,15 +1,20 @@
-use std::net::SocketAddr;
-
-extern crate pretty_env_logger;
 #[macro_use]
 extern crate log;
 
-use sqlx::postgres::PgPoolOptions;
+extern crate pretty_env_logger;
+
+use std::{net::SocketAddr, sync::Arc};
 
 use axum::{
     routing::{delete, get, post},
     Router,
 };
+
+use persistance::{
+    answers_dao::{AnswersDao, AnswersDaoImpl},
+    questions_dao::{QuestionsDao, QuestionsDaoImpl},
+};
+use sqlx::postgres::PgPoolOptions;
 
 mod handlers;
 mod models;
@@ -20,21 +25,36 @@ use handlers::*;
 const HOST: [u8; 4] = [127, 0, 0, 1];
 const PORT: u16 = 8000;
 
+#[derive(Clone)]
+pub struct AppState {
+    pub questions_dao: Arc<dyn QuestionsDao + Send + Sync>,
+    pub answers_dao: Arc<dyn AnswersDao + Send + Sync>,
+}
+
 #[tokio::main]
 async fn main() {
     // Load environment variables from .env file.
     dotenvy::dotenv().expect(
         "dotenv initialization failed. Make sure you have the .env file in the root of the project.");
+
     pretty_env_logger::init();
 
     let db_url =
         std::env::var("DATABASE_URL").expect("Environment variable DATABASE_URL is not provided.");
 
-    let _pool = PgPoolOptions::new()
+    let pool = PgPoolOptions::new()
         .max_connections(5)
         .connect(&db_url)
         .await
-        .expect("PgPool initialization failed");
+        .expect("Failed to create Postgres connection pool!");
+
+    let questions_dao = Arc::new(QuestionsDaoImpl::new(pool.clone()));
+    let answers_dao = Arc::new(AnswersDaoImpl::new(pool));
+
+    let app_state = AppState {
+        questions_dao,
+        answers_dao,
+    };
 
     let app = Router::new()
         .route("/question", post(create_question))
@@ -42,7 +62,8 @@ async fn main() {
         .route("/question", delete(delete_question))
         .route("/answer", post(create_answer))
         .route("/answers", get(read_answers))
-        .route("/answer", delete(delete_answer));
+        .route("/answer", delete(delete_answer))
+        .with_state(app_state);
 
     let addr = SocketAddr::from((HOST, PORT));
 

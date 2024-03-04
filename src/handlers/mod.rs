@@ -1,42 +1,69 @@
-use crate::models::*;
-use axum::{response::IntoResponse, Json};
+use axum::{
+    extract::State as AxumState, http::StatusCode, response::IntoResponse, Json as JsonAxum,
+};
 
-pub async fn create_question(Json(question): Json<Question>) -> impl IntoResponse {
-    Json(QuestionDetail {
-        question_uuid: "question_uuid".to_owned(),
-        title: question.title,
-        description: question.description,
-        created_at: "created_at".to_owned(),
-    })
+use crate::{models::*, AppState};
+
+mod handlers_inner;
+
+impl IntoResponse for handlers_inner::HandlerError {
+    fn into_response(self) -> axum::response::Response {
+        match self {
+            handlers_inner::HandlerError::BadRequest(msg) => {
+                (StatusCode::BAD_REQUEST, msg).into_response()
+            }
+            handlers_inner::HandlerError::InternalError(msg) => {
+                (StatusCode::INTERNAL_SERVER_ERROR, msg).into_response()
+            }
+        }
+    }
 }
 
-pub async fn read_questions() -> impl IntoResponse {
-    Json(vec![QuestionDetail {
-        question_uuid: "question_uuid".to_owned(),
-        title: "question_title".to_owned(),
-        description: "question_description".to_owned(),
-        created_at: "created_at".to_owned(),
-    }])
+pub async fn create_question(
+    AxumState(AppState { questions_dao, .. }): AxumState<AppState>,
+    JsonAxum(question): JsonAxum<Question>,
+) -> Result<impl IntoResponse, impl IntoResponse> {
+    handlers_inner::create_question(question, questions_dao.as_ref())
+        .await
+        .map(JsonAxum)
 }
 
-pub async fn delete_question(Json(_question_uuid): Json<QuestionId>) {}
-
-pub async fn create_answer(Json(answer): Json<Answer>) -> impl IntoResponse {
-    Json(AnswerDetail {
-        answer_uuid: "answer_uuid".to_owned(),
-        question_uuid: answer.question_uuid,
-        content: answer.content,
-        created_at: "created_at".to_owned(),
-    })
+pub async fn read_questions(
+    AxumState(AppState { questions_dao, .. }): AxumState<AppState>,
+) -> Result<impl IntoResponse, impl IntoResponse> {
+    handlers_inner::read_questions(questions_dao.as_ref())
+        .await
+        .map(JsonAxum)
 }
 
-pub async fn read_answers(Json(question_id): Json<QuestionId>) -> impl IntoResponse {
-    Json(vec![AnswerDetail {
-        answer_uuid: "answer_uuid".to_owned(),
-        question_uuid: question_id.question_uuid,
-        content: "content".to_owned(),
-        created_at: "created_at".to_owned(),
-    }])
+pub async fn delete_question(
+    AxumState(AppState { questions_dao, .. }): AxumState<AppState>,
+    JsonAxum(question_uuid): JsonAxum<QuestionId>,
+) -> Result<impl IntoResponse, impl IntoResponse> {
+    handlers_inner::delete_question(question_uuid, questions_dao.as_ref()).await
 }
 
-pub async fn delete_answer(Json(_answer_uuid): Json<AnswerId>) {}
+pub async fn create_answer(
+    AxumState(AppState { answers_dao, .. }): AxumState<AppState>,
+    JsonAxum(answer): JsonAxum<Answer>,
+) -> Result<impl IntoResponse, impl IntoResponse> {
+    handlers_inner::create_answer(answer, answers_dao.as_ref())
+        .await
+        .map(JsonAxum)
+}
+
+pub async fn read_answers(
+    AxumState(AppState { answers_dao, .. }): AxumState<AppState>,
+    JsonAxum(question_uuid): JsonAxum<QuestionId>,
+) -> Result<impl IntoResponse, impl IntoResponse> {
+    handlers_inner::read_answers(question_uuid, answers_dao.as_ref())
+        .await
+        .map(JsonAxum)
+}
+
+pub async fn delete_answer(
+    AxumState(AppState { answers_dao, .. }): AxumState<AppState>,
+    JsonAxum(answer_uuid): JsonAxum<AnswerId>,
+) -> Result<impl IntoResponse, impl IntoResponse> {
+    handlers_inner::delete_answer(answer_uuid, answers_dao.as_ref()).await
+}
