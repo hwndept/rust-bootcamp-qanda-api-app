@@ -1,3 +1,5 @@
+[![Rust](https://github.com/hwndept/rust-bootcamp-qanda-api-app/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/hwndept/rust-bootcamp-qanda-api-app/actions/workflows/ci.yml)
+
 # rust-bootcamp-qanda-api-app
 
 This project is part of a rust boot camp course practical task. It's a API app - kind of a question & answers, _like StackOverflow_.
@@ -6,7 +8,7 @@ The project implements the requirements defined in [bootcamp](https://github.com
 
 ## How to use
 
-1. Run local instance of PostgreSQL:
+1. Run a local instance of PostgreSQL:
 
 The next script runs database instance using docker. You can avoid this step if you have another database instance.
 
