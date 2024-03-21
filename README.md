@@ -107,8 +107,3 @@ curl --request DELETE \
     "answer_uuid": "[UUID of a created answer]"
 }'
 ```
-
-## To do
-
-- [ ] Rename API resources to plural form.
-- [ ] Move GET requests body params to path params.
