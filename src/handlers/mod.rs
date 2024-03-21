@@ -1,5 +1,6 @@
 use axum::{
-    extract::State as AxumState, http::StatusCode, response::IntoResponse, Json as JsonAxum,
+    extract::Path, extract::State as AxumState, http::StatusCode, response::IntoResponse,
+    Json as JsonAxum,
 };
 
 use crate::{models::*, AppState};
@@ -38,7 +39,7 @@ pub async fn read_questions(
 
 pub async fn delete_question(
     AxumState(AppState { questions_dao, .. }): AxumState<AppState>,
-    JsonAxum(question_uuid): JsonAxum<QuestionId>,
+    Path(question_uuid): Path<String>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
     handlers_inner::delete_question(question_uuid, questions_dao.as_ref()).await
 }
@@ -54,7 +55,7 @@ pub async fn create_answer(
 
 pub async fn read_answers(
     AxumState(AppState { answers_dao, .. }): AxumState<AppState>,
-    JsonAxum(question_uuid): JsonAxum<QuestionId>,
+    Path(question_uuid): Path<String>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
     handlers_inner::read_answers(question_uuid, answers_dao.as_ref())
         .await
@@ -63,7 +64,7 @@ pub async fn read_answers(
 
 pub async fn delete_answer(
     AxumState(AppState { answers_dao, .. }): AxumState<AppState>,
-    JsonAxum(answer_uuid): JsonAxum<AnswerId>,
+    Path(answer_uuid): Path<String>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
     handlers_inner::delete_answer(answer_uuid, answers_dao.as_ref()).await
 }

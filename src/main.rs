@@ -57,12 +57,10 @@ async fn main() {
     };
 
     let app = Router::new()
-        .route("/questions", post(create_question))
-        .route("/questions", get(read_questions))
-        .route("/questions", delete(delete_question))
+        .route("/questions", get(read_questions).post(create_question))
+        .route("/questions/:uuid", delete(delete_question))
         .route("/answers", post(create_answer))
-        .route("/answers", get(read_answers))
-        .route("/answers", delete(delete_answer))
+        .route("/answers/:uuid", get(read_answers).delete(delete_answer))
         .with_state(app_state);
 
     let addr = SocketAddr::from((HOST, PORT));

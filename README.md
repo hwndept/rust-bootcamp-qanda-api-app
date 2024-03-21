@@ -55,7 +55,7 @@ curl --request GET \
 
 ```sh
 curl --request POST \
-  --url http://localhost:8000/question \
+  --url http://localhost:8000/questions \
   --header 'Accept: application/json' \
   --data '{
     "title": "Title",
@@ -67,25 +67,19 @@ curl --request POST \
 
 ```sh
 curl --request DELETE \
-  --url http://localhost:8000/question \
-  --header 'Accept: application/json' \
-  --data '{
-    "question_uuid": "[UUID of a created question]"
-}'
+  --url http://localhost:8000/questions/<QUESTION_UUID> \
+  --header 'Accept: application/json'
 ```
 
 4. `GET /answers` - _Lists all answers_:
 
 ```sh
 curl --request GET \
-  --url http://localhost:8000/answers \
-  --header 'Accept: application/json' \
-  --data '{
-    "question_uuid": "[UUID of a created question]"
-}'
+  --url http://localhost:8000/answers/<QUESTION_UUID> \
+  --header 'Accept: application/json'
 ```
 
-5. `POST /answer` - _Creates an answer_:
+5. `POST /answers` - _Creates an answer_:
 
 ```sh
 curl --request POST \
@@ -101,9 +95,5 @@ curl --request POST \
 
 ```sh
 curl --request DELETE \
-  --url http://localhost:8000/answer \
-  --header 'Accept: application/json' \
-  --data '{
-    "answer_uuid": "[UUID of a created answer]"
-}'
+  --url http://localhost:8000/answers/<ANSWER_UUID>
 ```

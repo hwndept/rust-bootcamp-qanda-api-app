@@ -1,5 +1,5 @@
 use crate::{
-    models::{Answer, AnswerDetail, AnswerId, DBError, Question, QuestionDetail, QuestionId},
+    models::{Answer, AnswerDetail, DBError, Question, QuestionDetail},
     persistance::{answers_dao::AnswersDao, questions_dao::QuestionsDao},
 };
 
@@ -44,12 +44,10 @@ pub async fn read_questions(
 }
 
 pub async fn delete_question(
-    question_uuid: QuestionId,
+    question_uuid: String,
     questions_dao: &(dyn QuestionsDao + Sync + Send),
 ) -> Result<(), HandlerError> {
-    let result = questions_dao
-        .delete_question(question_uuid.question_uuid)
-        .await;
+    let result = questions_dao.delete_question(question_uuid).await;
 
     if result.is_err() {
         return Err(HandlerError::default_internal_error());
@@ -78,10 +76,10 @@ pub async fn create_answer(
 }
 
 pub async fn read_answers(
-    question_uuid: QuestionId,
+    question_uuid: String,
     answers_dao: &(dyn AnswersDao + Send + Sync),
 ) -> Result<Vec<AnswerDetail>, HandlerError> {
-    let answers = answers_dao.get_answers(question_uuid.question_uuid).await;
+    let answers = answers_dao.get_answers(question_uuid).await;
 
     match answers {
         Ok(answers) => Ok(answers),
@@ -93,10 +91,10 @@ pub async fn read_answers(
 }
 
 pub async fn delete_answer(
-    answer_uuid: AnswerId,
+    answer_uuid: String,
     answers_dao: &(dyn AnswersDao + Send + Sync),
 ) -> Result<(), HandlerError> {
-    let result = answers_dao.delete_answer(answer_uuid.answer_uuid).await;
+    let result = answers_dao.delete_answer(answer_uuid).await;
 
     if result.is_err() {
         return Err(HandlerError::default_internal_error());
@@ -300,9 +298,7 @@ mod tests {
 
     #[tokio::test]
     async fn delete_question_should_succeed() {
-        let question_id = QuestionId {
-            question_uuid: "123".to_owned(),
-        };
+        let question_id = "123".to_owned();
 
         let mut questions_dao = QuestionsDaoMock::new();
 
@@ -318,9 +314,7 @@ mod tests {
 
     #[tokio::test]
     async fn delete_question_should_return_error() {
-        let question_id = QuestionId {
-            question_uuid: "123".to_owned(),
-        };
+        let question_id = "123".to_owned();
 
         let mut questions_dao = QuestionsDaoMock::new();
 
@@ -419,9 +413,7 @@ mod tests {
             created_at: "now".to_owned(),
         };
 
-        let question_id = QuestionId {
-            question_uuid: "123".to_owned(),
-        };
+        let question_id = "123".to_owned();
 
         let mut answers_dao = AnswersDaoMock::new();
 
@@ -437,9 +429,7 @@ mod tests {
 
     #[tokio::test]
     async fn read_answers_should_return_error() {
-        let question_id = QuestionId {
-            question_uuid: "123".to_owned(),
-        };
+        let question_id = "123".to_owned();
 
         let mut answers_dao = AnswersDaoMock::new();
 
@@ -458,9 +448,7 @@ mod tests {
 
     #[tokio::test]
     async fn delete_answer_should_succeed() {
-        let answer_id = AnswerId {
-            answer_uuid: "123".to_owned(),
-        };
+        let answer_id = "123".to_owned();
 
         let mut answers_dao = AnswersDaoMock::new();
 
@@ -476,9 +464,7 @@ mod tests {
 
     #[tokio::test]
     async fn delete_answer_should_return_error() {
-        let answer_id = AnswerId {
-            answer_uuid: "123".to_owned(),
-        };
+        let answer_id = "123".to_owned();
 
         let mut answers_dao = AnswersDaoMock::new();
 
