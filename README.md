@@ -1,4 +1,4 @@
-[![Rust](https://github.com/hwndept/rust-bootcamp-qanda-api-app/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/hwndept/rust-bootcamp-qanda-api-app/actions/workflows/ci.yml)
+[![CI](https://github.com/hwndept/rust-bootcamp-qanda-api-app/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/hwndept/rust-bootcamp-qanda-api-app/actions/workflows/ci.yml)
 
 # rust-bootcamp-qanda-api-app
 
