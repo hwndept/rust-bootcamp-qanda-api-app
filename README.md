@@ -2,7 +2,7 @@
 
 # rust-bootcamp-qanda-api-app
 
-This project is part of a rust boot camp course practical task. It's a API app - kind of a question & answers, _like StackOverflow_.
+This project is part of a rust boot camp course practical task. It's an API app - kind of a question-and-answer, _like StackOverflow_.
 
 The project implements the requirements defined in [bootcamp](https://github.com/letsgetrusty/bootcamp/tree/master/4.%20Projects/2.%20API-axum/Problem).
 
@@ -10,7 +10,7 @@ The project implements the requirements defined in [bootcamp](https://github.com
 
 1. Run a local instance of PostgreSQL:
 
-The next script runs database instance using docker. You can avoid this step if you have another database instance.
+The next script runs the database instance using docker. You can avoid this step if you have another database instance.
 
 ```sh
 ./scripts/run-db.sh
